@@ -74,12 +74,12 @@ int main() {
                                 nfor = n;
                             }
                             i2 = -1;
-                        }
+                    }
                         
-                    }while(i2 >= 0);
-                }       
-            }
+                }while(i2 >= 0);
+            }       
         }
+    }
     
     if(verif == true){
         for(int d = 0; d < n; d++){
