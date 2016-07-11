@@ -10,42 +10,64 @@ int main(){
     int rel[n][n];
     vector<int> h1;
     vector<int> h2;
+    vector<int> restantes;
     
     //inserção dos dados
-    for (int linha = 1; linha <= n; linha++){
-        for (int coluna = 1; coluna <= n; coluna++){
+    for (int linha = 0; linha < n; linha++){
+        for (int coluna = 0; coluna < n; coluna++){
             cin >> rel[linha][coluna];
         }
     }
     
-    
     //rel[aluno][relacoes]
     bool possivel = true;
     
- //   do{
-    int i = 0;
-    h1.push_back(1);
-    for (int linha = 2; linha <= n; linha++){
+    do{
+    //coloca os alunos em um vetor, para ajudar no controle e, caso um aluno não tenha amigos,
+    //não precisaremos considerar ele no calculo de ser possivel ou nao
+    for (int linha = 0; linha < n; linha++) {
+        int i = 0;
+        for (int coluna = 0; coluna < n; coluna++){
+            if (rel[linha][coluna] == 0){
+                i++;
+            }
+        }
+        if(i < n){
+            restantes.push_back(linha);
+        }
+    }
+    
+    h1.push_back(restantes.at(0));
+    restantes.erase(restantes.begin());
+    
+    int linha = 0;
+    do{
             
         //verifica o aluno com todos os que já estão no horario 1
         int conth1 = 0;
         int conth2 = 0;
-        for (int qt = 0; qt < h1.size(); qt++){
-            if (rel[linha][h1.at(qt)] == 1){
-                if (h2.size() == 0){
-                    h2.push_back(linha);
+        int h1sizeaux = h1.size();
+        int h2sizeaux = h2.size();
+        for (int qt = 0; qt < h1sizeaux; qt++){
+            if (rel[restantes.at(linha)][h1.at(qt)] == 1){
+                if (h2.size() == 0){  //insere o primeiro item no 2° horario
+                    h2.push_back(restantes.at(linha));
+                    restantes.erase(restantes.begin() + linha);
+                    linha = 0;
                 }
                 else{
                     for (int qt2 = 0; qt2 < h2.size(); qt2++){
-                        if (rel[linha][h2.at(qt2)] == 1){
-                            possivel = false;
+                        if (rel[restantes.at(linha)][h2.at(qt2)] == 1){
+                            linha = (restantes.size() + 1);
                         }
                         else{
                             conth2++;
                         }
                     }
                     if(conth2 == h2.size()){
-                        h2.push_back(linha);
+                        h2.push_back(restantes.at(linha));
+                        restantes.erase(restantes.begin() + linha);
+                        linha = 0;
                     }
                 }
             }
@@ -53,12 +75,28 @@ int main(){
                 conth1++;
             }
         }
-        if (conth1 == h1.size()){
-            h1.push_back(linha);
+        //verifica condições para ser colocado no horario 1
+        if (conth1 == h1sizeaux){ 
+            int verVacuidade = 0;
+            int conth2n = 0;
+            for (int qt = 0; qt < h2sizeaux; qt++){
+                if(rel[restantes.at(linha)][qt] == 0){
+                    conth2n++;
+                }
+            }
+            //verifica se o aluno é amigo de pelo menos um do outro lado, 
+            if((conth2n != h2.size())||(h2.size() == 0)){
+                h1.push_back(restantes.at(linha));
+                restantes.erase(restantes.begin() + linha);
+                linha = 0;
+            }else{
+                linha++;
+            }
         }
-    }
-  //  }while(possivel == false);
-    if(possivel == true){
+    }while((restantes.size() > 0)&&(linha < restantes.size()));
+    
+    }while(1<0);
+    if(restantes.size() == 0){
         cout << "SIM";
     }
     else{
