@@ -54,6 +54,7 @@ int main(){
                     h2.push_back(restantes.at(linha));
                     restantes.erase(restantes.begin() + linha);
                     linha = 0;
+                    qt = h1sizeaux; //para o loop, pois ja usamos o item da linha atual
                 }
                 else{
                     for (int qt2 = 0; qt2 < h2.size(); qt2++){
@@ -68,6 +69,9 @@ int main(){
                         h2.push_back(restantes.at(linha));
                         restantes.erase(restantes.begin() + linha);
                         linha = 0;
+                    }
+                    else{
+                        possivel = false;
                     }
                 }
             }
@@ -84,16 +88,21 @@ int main(){
                     conth2n++;
                 }
             }
-            //verifica se o aluno é amigo de pelo menos um do outro lado, 
+            //verifica se o aluno é amigo de pelo menos um do outro horario, 
             if((conth2n != h2.size())||(h2.size() == 0)){
                 h1.push_back(restantes.at(linha));
                 restantes.erase(restantes.begin() + linha);
                 linha = 0;
             }else{
                 linha++;
+                if(linha >= restantes.size()){              //condição criada para evitar erros quando no vetor "restantes" sobraram somente itens 
+                    h1.push_back(restantes.at(0));          //que interagem entre si, mas não com com os que ja estão nos vetores)
+                    restantes.erase(restantes.begin());
+                    linha = 0;
+                }
             }
         }
-    }while((restantes.size() > 0)&&(linha < restantes.size()));
+    }while((restantes.size() > 0)&&(possivel == true));/*&&(linha < restantes.size())*/
     
     }while(1<0);
     if(restantes.size() == 0){
