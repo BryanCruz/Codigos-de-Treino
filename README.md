@@ -1,2 +1,2 @@
-# desafiosSato
-Desafios de Programação enviados pela professora Cristiane Sato
+# Desafios de Programação
+Desafios de maratonas de programação para treino, enviados pela professora Cristiane Sato.
