@@ -30,16 +30,8 @@ int comp(int a, int b){
 	return a < b;
 }
 
-void printVetor(int * v, int n){
-	for(int i = 0; i < n; i++){
-		cout << v[i] << " ";
-	}
-	cout << endl;
-}
 
 int taDentro(int * v1, int n1, int * v2, int n2){
-	printVetor(v1, n1);
-	printVetor(v2, n2);
 	int i = 0, deslocamento = 0;
 	for(deslocamento = 0; deslocamento < n2; deslocamento++){
 		if(v1[0] == v2[deslocamento]) break;
@@ -55,8 +47,8 @@ int taDentro(int * v1, int n1, int * v2, int n2){
 		}
 	}
 
-	if(i < n1) return v2[(deslocamento)];
-	else 	   return -1;
+	if(i < n1) return -1;
+	else 	   return v2[0];
 }
 
 string acharPadrao(int acordes){
@@ -96,7 +88,7 @@ int main(void){
 	if(iTocados <= 7){
 		sort(acordesTocados, acordesTocados + iTocados, comp);
 		for(int i = 0; i < QTD_NOTAS && !isPattern; i++){
-			if(deslocamento = taDentro(acordesTocados, iTocados, geradorDePadrao(i), QTD_PADRAO)){
+			if((deslocamento = taDentro(acordesTocados, iTocados, geradorDePadrao(i), QTD_PADRAO)) != -1){
 				isPattern = 1;
 			}
 		}
