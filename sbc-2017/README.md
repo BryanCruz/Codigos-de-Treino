@@ -1,5 +1,7 @@
-# Maratona Regional de SBC 2017
-Legenda:
-a1,..,an = arquivos de output
-i1,..,in = arquivos de input
-g1,..,gn = gabarito
+## USP IME 2017 Classificatorial Marathon
+
+https://www.ime.usp.br/~maratona/
+
+## Problems:
+
+https://www.urionlinejudge.com.br/judge/en/problems/origin/148

@@ -29,7 +29,6 @@ unsigned long long permutaPrimos(int n, int p){
 	return total;
 }
 
-
 int main(void){
 	unsigned long long n;
 	cin >> n;
