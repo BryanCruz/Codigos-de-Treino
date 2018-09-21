@@ -1,78 +1,116 @@
-#!/bin/python3
+import sys
 
-def main():
-    n = 5
-    board = []
+class Solution:
+    def __init__(self, size, column = 0):
+        self.size = size
+        self.board = []
+        self.column = column
 
+        for i in range(self.size):
+            self.board += [[]]
+            for j in range(self.size):
+                self.board[i] += [0]
+    
+    def clone(self):
+        newSolution = Solution(self.size, self.column)
+
+        newSolution.board = list(self.board)
+        for i in range(self.size):
+            newSolution.board[i] = list(self.board[i])
+        return newSolution
+    
+    def print(self):
+        printBoard(self.board, self.size)
+
+def printLine(n):
     for i in range(n):
-        board += [[]]
-        for j in range(n):
-            board[i] += [0]
-    printBoard(board, n)
-
-    printBoard(dfs(board, n), n)
-
+        print("=", end="")
+    print()
 
 def printBoard(board, n):
+    printLine(2*n-1)
     for i in range(n):
         for j in range(n):
             print(("%d" % board[i][j]).zfill(1), end=" ")
         print()
+    printLine(2*n-1)
 
-def dfs(s, n):
-    for a in acoes(s, n):
-        sol = dfs(resultado(s, a, n), n)
-        if atingiuObj(sol, n):
-            return sol
-    return s
-
-def cloneBoard(board, n):
-    newBoard = list(board)
-    for i in range(n):
-        newBoard[i] = list(board[i])
-
-def resultado(s, a, n):
-    i = a[0]
-    j = a[1]
-    newS = cloneBoard(s, n)
-    newS[i][j] = 1
-
-    return newS
-
-def allowed(s, iA, jA, n):
-    countV  = 0
-    countH  = 0
-    countD1 = 0
-    countD2 = 0
-
-    for i in range(n):
-        countV = countV + s[i][jA]
-        countH = countH + s[iA][i]
-
-        if(iA-i >= 0 and jA-i >= 0):
-            countD1 = countD1 + s[iA-i][jA-i]
-        if(iA+
-
-        if(countV == 1 or countH == 1):
+def permitido(sol, x, y):
+    for i in range(sol.column):
+        if(sol.board[x][i] == 1):
             return False
 
-def acoes(s, n):
-    acoesList = [[]]
-    for i in range(n):
-        for j in range(n):
-            if(s[i][j] != 1 and allowed(s, i, j, n)):
-                acoesList += [[i, j]]
+        yD  = y-i-1
+        if(yD >= 0):
+            xD1 = x-i-1
+            xD2 = x+i+1
+            
+            if(xD1 >= 0 and sol.board[xD1][yD] == 1):
+                return False
+
+            if(xD2 < sol.size and sol.board[xD2][yD] == 1):
+                return False
+
+    return True
+
+def acoes(sol):
+    acoesList = []
+    n = sol.size
+    y = sol.column
+
+    for x in range(n):
+        if(permitido(sol, x, y)):
+            acoesList += [[x, y]]
     return acoesList
 
-def atingiuObj(sol, n):
-    count = 0
-    for i in range(n):
-        for j in range(n):
-            count = count + sol[i][j]
-            
-            if(count == n):
-                return True
-    return False
+def atingiuObjetivo(sol):
+    return sol.column == sol.size
+
+def resultado(sol, acao):
+    x = acao[0]
+    y = acao[1]
+    newSol = sol.clone()
+
+    newSol.board[x][y] = 1
+    newSol.column = newSol.column+1
+
+    return newSol
+
+def dfs(sol):
+    sol.print()
+    for acao in acoes(sol):
+        newSol = dfs(resultado(sol, acao))
+        if atingiuObjetivo(newSol):
+            return newSol
+    return sol
+
+    
+def bfs(estados):
+    for estado in estados:
+        estado.print()
+
+    estados2 = []
+    for s in estados:
+        s2 = [resultado(s,a) for a in acoes(s)]
+        estados2 = estados2 + s2
+
+    for estado in estados2:
+        if(atingiuObjetivo(estado)):
+            return estado
+
+    return bfs(estados2)
 
 if __name__ == '__main__':
-   main()
+    n = 11
+    sol = Solution(n)
+    sol.print()
+
+    if(sys.argv[1] == "dfs"):
+        print("dfs")
+        newSol = dfs(sol)
+        newSol.print()
+    else:
+        print("bfs")
+        newSol = bfs([sol])
+        newSol.print()
+
