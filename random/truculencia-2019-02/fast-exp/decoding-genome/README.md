@@ -1,0 +1,1 @@
+# [Decoding Genome](https://codeforces.com/problemset/problem/222/E)
