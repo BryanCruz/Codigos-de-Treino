@@ -19,7 +19,7 @@ int main (void) {
     int t1, t2, t3, t4; // ((, (), )(, ))
     scanf("%d %d %d %d", &t1, &t2, &t3, &t4);
 
-    int result = (t1 == t4 && 2*t1 >= t3);
+    int result = (t1 == t4 && t1 >= 0);
     
     printf("%d\n", result ? 1 : 0);
 
