@@ -66,7 +66,7 @@ int main (void) {
             }
 
             if (p[j].r > r && p[j].l >= l) {
-                p[j].c -= (l-p[j].l+1);
+                p[j].c -= (r-p[j].l+1);
                 p[j].l = r+1;
             }
         }
